@@ -9,5 +9,12 @@ class ProductosDAO extends Table {
     $registros = self::obtenerRegistros($sqlstr, $params);
     return $registros;
     }
+
+    public static function getAllProducts() { 
+    $sqlstr = "SELECT m.nombre_marca, p.nombre_producto, p.descripcion, p.precio, p.imagen FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY id_categoria ORDER BY id_producto ASC) AS fila FROM producto) AS p INNER JOIN marca_producto AS m ON p.id_marca = m.id_marca";
+    $params = [];
+    $registros = self::obtenerRegistros($sqlstr, $params);
+    return $registros;
+    }
 }
 ?>
