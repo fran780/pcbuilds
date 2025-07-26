@@ -1,8 +1,10 @@
 <div class="container">
     <div class="banner">
         <h1>¡Te llevamos al siguiente nivel!</h1>
-        <p>Nuestros expertos legales trabajan con dedicación para ofrecer soluciones personalizadas y efectivas.</p>
-        <button class="shop-button">Tienda</button>
+        <p>Nuestros expertos legales trabajan con dedicación para ofrecer soluciones personalizadas y efectivas.</p>      
+        
+        <button class="shop-button" onclick="window.location.href='index.php?page=Tienda'">Tienda</button>
+
     </div>
     <div class="image">
         <img src="public/imgs/hero/imagen_baner.jpg" alt="Configuración de escritorio gamer">
@@ -17,7 +19,7 @@
         <h2>{{nombre_marca}} {{nombre_producto}}</h2>
         <p>{{descripcion}}</p>
         <span class="price">L.{{precio}}.00</span>
-        <button class="add-to-cart">Ver Productos</button>
+        <button class="add-to-cart" onclick="window.location.href='index.php?page=Tienda'">Ver Productos</button>
     </div>
     {{endfor getBestProducts}}
 </div>

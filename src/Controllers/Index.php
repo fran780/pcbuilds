@@ -28,11 +28,6 @@ use \Dao\Productos\ProductosDAO;
 
 class Index extends PublicController
 {
-    /**
-     * Index run method
-     *
-     * @return void
-     */
     public function run() :void
     {
         Site::addLink("public/css/paginas/index.css");

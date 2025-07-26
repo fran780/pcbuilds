@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
 }
 
 .container {
@@ -82,7 +83,7 @@ h1 {
     flex-direction: column;
     justify-content: space-between;
     width: 220px;
-    height: 300px;
+    height: 330px;
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
@@ -108,7 +109,7 @@ h1 {
 
 
 .product h2 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin: 10px 10px 0;
     height: 40px;
@@ -116,7 +117,7 @@ h1 {
 }
 
 .product p {
-    font-size: 14px;
+    font-size: 12px;
     color: #cccccc;
     margin: 10px;
     flex-grow: 1;
@@ -144,4 +145,90 @@ h1 {
 
 .add-to-cart:hover {
     background-color: #4037ba;
+}
+
+.badge {
+  color: #00ffff;
+}
+
+/**** FILTROS ****/
+
+/* Contenedor general */
+.grid {
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Formulario en fila */
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Alineación vertical */
+.align-center {
+  align-items: center;
+}
+.align-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+/* Columnas internas */
+.col-8, .col-4 {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+/* Inputs y selects */
+input[type="text"],
+select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #0078d4;
+  outline: none;
+}
+
+/* Select múltiple */
+select[multiple] {
+  height: 6rem;
+  overflow-y: auto;
+}
+
+/* Botón */
+button[type="submit"] {
+  padding: 0.6rem 1.2rem;
+  background-color: #0078d4;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
 }

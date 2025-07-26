@@ -3,11 +3,11 @@
   <form action="{{url}}" method="get" id="pagination">
     <input type="hidden" name="page" value="{{page}}" />
     <select name="itemsPerPage" id="itemsPerPage">
-      <option value="1" {{itemsPerPage_1}}>1</option>
-      <option value="5" {{itemsPerPage_5}}>5</option>
-      <option value="10" {{itemsPerPage_10}}>10</option>
-      <option value="20" {{itemsPerPage_20}}>20</option>
-      <option value="50" {{itemsPerPage_50}}>50</option>
+      <option value="12" {{itemsPerPage_12}}>12</option>
+      <option value="16" {{itemsPerPage_16}}>16</option>
+      <option value="24" {{itemsPerPage_24}}>24</option>
+      <option value="32" {{itemsPerPage_32}}>32</option>
+      <option value="64" {{itemsPerPage_64}}>64</option>
       <option value="100" {{itemsPerPage_100}}>100</option>
     </select>
   </form>
