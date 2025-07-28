@@ -36,6 +36,11 @@
       </ul>
     </nav>
     {{with login}}
+      <a href="index.php?page=checkout_checkout" class="cart-link">
+        <i class="fa-solid fa-cart-shopping">
+          <span class="cart-items">{{if ~CART_ITEMS}}{{~CART_ITEMS}}{{endif ~CART_ITEMS}}</span>
+        </i>
+      </a>
     <span class="username">{{userName}} <a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i></a></span>
     {{endwith login}}
   </header>

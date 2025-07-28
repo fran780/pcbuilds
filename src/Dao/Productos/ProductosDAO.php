@@ -3,6 +3,7 @@ namespace Dao\Productos;
 use Dao\Table;
 
 class ProductosDAO extends Table {
+
     public static function getBestProducts() { 
     $sqlstr = "SELECT m.nombre_marca, p.nombre_producto, p.descripcion, p.precio, p.imagen FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY id_categoria ORDER BY id_producto ASC) AS fila FROM producto) AS p INNER JOIN marca_producto AS m ON p.id_marca = m.id_marca WHERE p.fila = 1 LIMIT 4";
     $params = [];
@@ -34,7 +35,7 @@ class ProductosDAO extends Table {
             $itemsPerPage = 8;
         }
 
-        $sqlstr = "SELECT m.nombre_marca, p.id_producto, p.nombre_producto, p.descripcion, p.precio, p.imagen
+        $sqlstr = "SELECT m.nombre_marca, p.id_producto, p.nombre_producto, p.descripcion, p.precio, p.imagen, p.stock
             FROM producto p
             INNER JOIN marca_producto m ON p.id_marca = m.id_marca
             INNER JOIN estado_producto e ON p.id_estado = e.id_estado
@@ -105,6 +106,17 @@ class ProductosDAO extends Table {
             "page" => $page,
             "itemsPerPage" => $itemsPerPage
         ];
+
+        //Se pone la logica para poder añadir un producto paginado al carrito
+
+        
     }
+
+    public static function getProductoById($id)
+    {
+        $sql = "SELECT * FROM producto WHERE id_producto = :id_producto";
+        return self::obtenerUnRegistro($sql, ["id_producto" => $id]);
+    }
+
 }
 ?>
