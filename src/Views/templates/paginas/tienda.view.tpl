@@ -52,8 +52,12 @@
     <span class="badge">{{nombre_marca}}</span>
     <p>{{descripcion}}</p>
     <span class="price">L.{{precio}}.00</span>
-    <button class="add-to-cart">Ver Producto</button>
-  </div>
+
+  <form action="index.php?page=tienda" method="post">
+          <input type="hidden" name="id_producto" value="{{id_producto}}">
+          <button type="submit" name="addToCart" class="add-to-cart"><i class="fa-solid fa-cart-plus"></i> Agregar al Carrito</button>
+  </form>
+</div>
   {{endfor products}}
   {{pagination}}
 </div>

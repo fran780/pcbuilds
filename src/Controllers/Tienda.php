@@ -1,12 +1,20 @@
 <?php
 namespace Controllers;
 
-use \Utilities\Site;
-use \Views\Renderer;
-use \Dao\Productos\ProductosDAO;
+use Views\Renderer;
+use Dao\Productos\ProductosDAO;
+use Dao\Cart\CartDAO;
+
 use Controllers\PublicController;
+
 use Utilities\Context;
 use Utilities\Paging;
+use Utilities\Cart\CartFns;
+use Utilities\Site;
+use Utilities\Security;
+
+
+
 
 class Tienda extends PublicController
 {
@@ -25,6 +33,7 @@ class Tienda extends PublicController
     public function run(): void
     {
         Site::addLink("public/css/paginas/tienda.css");
+
         $this->getParamsFromContext();
         $this->getParams();
 
@@ -51,6 +60,38 @@ class Tienda extends PublicController
         $this->setParamsToContext();
         $this->setParamsToDataView();
 
+        if ($this->isPostBack()) {
+            if (Security::isLogged()) {
+                $usercod = Security::getUserId();
+                $productId = intval($_POST["id_producto"]);
+                $product = CartDAO::getProductoDisponible($productId);
+                if ($product["stock"] - 1 >= 0) {
+                    CartDAO::addToAuthCart(
+                        intval($_POST["id_producto"]),
+                        $usercod,
+                        1,
+                        $product["precio"]
+                    );
+                }
+            } else {
+                $cartAnonCod = CartFns::getAnnonCartCode();
+                if (isset($_POST["addToCart"])) {
+
+                    $productId = intval($_POST["id_producto"]);
+                    $product = CartDAO::getProductoDisponible($productId);
+                    if ($product["stock"] - 1 >= 0) {
+                        CartDAO::addToAnonCart(
+                            intval($_POST["id_producto"]),
+                            $cartAnonCod,
+                            1,
+                            $product["precio"]
+                        );
+                    }
+                }
+            }
+            $this->getCartCounter();
+        }
+
         Renderer::render("paginas/tienda", $this->viewData);
     }
 
@@ -67,7 +108,6 @@ class Tienda extends PublicController
 
         $this->selectedBrand = $_GET["id_marca"] ?? "";
         $this->selectedCategory = $_GET["id_categoria"] ?? "";
-
     }
 
     private function getParamsFromContext(): void
