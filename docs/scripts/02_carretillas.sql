@@ -41,7 +41,7 @@ INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`) VALUES
 ('Controllers\\Checkout\\Checkout', 'Acceso al Checkout para clientes', 'ACT', 'CTR'),
 ('Controllers\\Checkout\\History', 'Listado Historial de Transacciones', 'ACT', 'CTR'),
 ('Controllers\\Checkout\\HistoryDetail', 'Formulario de Historial de Transacciones', 'ACT', 'CTR'),
-('Menu_TransHist', 'Menu_Transacciones', 'ACT', 'MNU'),
+('Menu_TransHist', 'Menu_Transacciones', 'ACT', 'MNU');
 
 
 INSERT INTO `roles` (`rolescod`, `rolesdsc`, `rolesest`) VALUES
