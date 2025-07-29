@@ -105,6 +105,22 @@ abstract class Table
         return $query->execute();
     }
 
+    protected static function executeInsert($sqlstr, $params, &$conn = null)
+{
+    $pConn = $conn ?? self::getConn();
+    $query = $pConn->prepare($sqlstr);
+    foreach ($params as $key => &$value) {
+        $query->bindParam(":" . $key, $value, self::getBindType($value));
+    }
+
+    if ($query->execute()) {
+        return $pConn->lastInsertId(); // Retorna el último ID insertado
+    } else {
+        return false; // O lanzar excepción si preferís
+    }
+}
+
+
     protected static function _getStructFrom($structure, $data)
     {
         if (is_array($data) && is_array($structure)) {

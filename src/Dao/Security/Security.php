@@ -81,7 +81,14 @@ class Security extends \Dao\Table
             now(), :userpswdest, :userpswdexp, :userest, :useractcod,
             now(), :usertipo);";
 
-        return self::executeNonQuery($sqlIns, $newUser);
+        // Ejecutar el insert y obtener el ID insertado
+    $usercod = self::executeInsert($sqlIns, $newUser); // Este método debe devolver el último ID
+
+    // Llamar al procedimiento almacenado para asignar el rol
+    $sqlRole = "CALL addClientRol(:usercod)";
+    self::executeNonQuery($sqlRole, ["usercod" => $usercod]);
+
+    return $usercod;
 
     }
 
