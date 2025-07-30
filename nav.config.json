@@ -1,15 +1,5 @@
 {
   "public": [
-    {
-      "id": "Menu_SignIn",
-      "nav_url": "index.php?page=Sec_Login",
-      "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Iniciar Sesión"
-    },
-     {
-      "id": "Menu_SignUp",
-      "nav_url": "index.php?page=Sec_Register",
-      "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Crear Cuenta"
-    },
      {
       "id": "Tienda",
       "nav_url": "index.php?page=Tienda",
@@ -19,6 +9,16 @@
       "id": "Contactanos",
       "nav_url": "index.php?page=Contactanos",
       "nav_label":"<i class=\"fas fa-comment-dots\"></i>&nbsp;Contactanos"
+    },
+    {
+      "id": "Menu_SignIn",
+      "nav_url": "index.php?page=Sec_Login",
+      "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Iniciar Sesión"
+    },
+     {
+      "id": "Menu_SignUp",
+      "nav_url": "index.php?page=Sec_Register",
+      "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Crear Cuenta"
     }
   ],
   "private": [
@@ -31,21 +31,6 @@
       "id": "Menu_TransHist",
       "nav_url": "index.php?page=Checkout_History",
       "nav_label": "<i class=\"fas fa-file-invoice-dollar\"></i>&nbsp;Histórico Transacciones"
-    },
-     {
-      "id": "Menu_TransHist",
-      "nav_url": "index.php?page=Tienda",
-      "nav_label":"<i class=\"fas fa-store\"></i>&nbsp;Tienda"
-    },
-     {
-      "id": "Menu_TransHist",
-      "nav_url": "index.php?page=Contactanos",
-      "nav_label":"<i class=\"fas fa-comment-dots\"></i>&nbsp;Contactanos"
-    },
-     {
-      "id": "Menu_TransHist",
-      "nav_url": "index.php?page=sec_logout",
-      "nav_label":"<i class=\"fas fa-sign-out-alt\"></i>&nbsp;Salir"
     }
   ]
 }
