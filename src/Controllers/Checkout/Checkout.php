@@ -11,7 +11,7 @@ class Checkout extends PrivateController
 {
     public function run(): void
     {
-        Site::addLink("public/css/products.css");
+        Site::addLink("public/css/paginas/checkout.css");
 
         $viewData = [];
 

@@ -18,7 +18,7 @@
         <img src="{{imagen}}" alt="{{nombre_producto}}">
         <h2>{{nombre_marca}} {{nombre_producto}}</h2>
         <p>{{descripcion}}</p>
-        <span class="price">L.{{precio}}.00</span>
+        <span class="price">USD {{precio}}</span>
         <button class="add-to-cart" onclick="window.location.href='index.php?page=Tienda'">Ver Productos</button>
     </div>
     {{endfor getBestProducts}}
