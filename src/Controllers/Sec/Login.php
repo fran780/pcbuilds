@@ -2,6 +2,7 @@
 
 namespace Controllers\Sec;
 
+use Utilities\Site;
 use Dao\Cart\CartDAO as Cart;
 use Utilities\Cart\CartFns;
 
@@ -84,6 +85,7 @@ class Login extends \Controllers\PublicController
             }
         }
         $dataView = get_object_vars($this);
+        Site::addLink("public/css/paginas/login.css");
         \Views\Renderer::render("security/login", $dataView);
     }
 }

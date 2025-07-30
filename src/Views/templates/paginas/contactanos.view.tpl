@@ -7,8 +7,8 @@
         <p>Contáctenos sobre cualquier cosa relacionada con nuestra empresa o servicios.<br>
             Haremos todo lo posible para llamarte lo antes posible.</p>
         <div class="buttons">
-            <a href="index.php" class="btn">Home</a>
-            <a href="index.php?page=Tienda" class="btn">Productos</a>
+            <a href="index.php" class="btn">Inicio</a>
+            <a href="index.php?page=Tienda" class="btn">Tienda</a>
         </div>
     </div>
 </section>

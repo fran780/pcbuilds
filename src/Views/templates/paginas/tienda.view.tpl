@@ -4,7 +4,7 @@
   </div>
   <div class="right">
     <nav>
-      <button class="btn" onclick="window.location.href='index.php'">Home</button>
+      <button class="btn" onclick="window.location.href='index.php'">Inicio</button>
       <button class="btn" onclick="window.location.href='index.php?page=contactanos'">Contacto</button>
     </nav>
     <h1>Nuestra Tienda</h1>
@@ -19,7 +19,7 @@
           <input type="hidden" name="page" value="Tienda">
           <label class="col-3" for="partialName">Nombre</label>
           <input class="col-9" type="text" name="partialName" id="partialName" value="{{partialName}}" />
-          
+
           <label class="col-3" for="id_marca">Marca</label>
           <select class="col-9" name="id_marca" id="id_marca">
             <option value="">-- Todas las marcas --</option>
@@ -53,11 +53,12 @@
     <p>{{descripcion}}</p>
     <span class="price">USD {{precio}}</span>
 
-  <form action="index.php?page=tienda" method="post">
-          <input type="hidden" name="id_producto" value="{{id_producto}}">
-          <button type="submit" name="addToCart" class="add-to-cart"><i class="fa-solid fa-cart-plus"></i> Agregar al Carrito</button>
-  </form>
-</div>
+    <form action="index.php?page=tienda" method="post">
+      <input type="hidden" name="id_producto" value="{{id_producto}}">
+      <button type="submit" name="addToCart" class="add-to-cart"><i class="fa-solid fa-cart-plus"></i> Agregar al
+        Carrito</button>
+    </form>
+  </div>
   {{endfor products}}
   {{pagination}}
 </div>

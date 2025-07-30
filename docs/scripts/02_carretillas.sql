@@ -57,7 +57,6 @@ INSERT INTO `funciones_roles` (`rolescod`, `fncod`, `fnrolest`, `fnexp`) VALUES
 
 DELIMITER $$
 
-//Procedimiento para agregar rol de cliente
 CREATE PROCEDURE addClientRol(IN p_usercod BIGINT)
 BEGIN
     -- Asignar directamente el valor recibido
