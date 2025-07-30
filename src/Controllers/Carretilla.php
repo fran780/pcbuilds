@@ -12,13 +12,13 @@ class Carretilla extends PublicController
 {
     public function run(): void
     {
-        Site::addLink("public/css/products.css");
+        Site::addLink("public/css/paginas/carretilla.css");
         $viewData = [];
 
         $userIsLogged = Security::isLogged();
         $userId = $userIsLogged ? Security::getUserId() : CartFns::getAnnonCartCode();
 
-        // ✅ Obtener carretilla según tipo de usuario
+        // Obtener carretilla según tipo de usuario
         $carretilla = $userIsLogged
             ? Cart::getAuthCart($userId)
             : Cart::getAnonCart($userId);
@@ -91,9 +91,15 @@ class Carretilla extends PublicController
         $viewData["carretilla"] = $finalCarretilla;
         $viewData["total"] = number_format($total, 2);
 
-        $viewData["botonTexto"] = ($total > 0) ? "Ir al Checkout" : "Seguir comprando";
-        $viewData["botonUrl"] = ($total > 0) ? "index.php?page=Checkout_Checkout" : "index.php?page=Index";
-        $viewData["botonIcono"] = ($total > 0) ? "shopping-cart" : "store";
+        $viewData["botonTexto"] = ($total > 0)
+            ? "Vamos al Pago"
+            : "No tienes productos en tu carretilla, agrega algunos!";
+        $viewData["botonUrl"] = ($total > 0)
+            ? "index.php?page=Checkout_Checkout"
+            : "index.php?page=Index";
+        $viewData["botonIcono"] = ($total > 0)
+            ? "shopping-cart"
+            : "store";
 
         \Views\Renderer::render("paginas/carretilla", $viewData);
     }

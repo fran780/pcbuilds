@@ -51,7 +51,7 @@
     <h2>{{nombre_producto}}</h2>
     <span class="badge">{{nombre_marca}}</span>
     <p>{{descripcion}}</p>
-    <span class="price">L.{{precio}}.00</span>
+    <span class="price">USD {{precio}}</span>
 
   <form action="index.php?page=tienda" method="post">
           <input type="hidden" name="id_producto" value="{{id_producto}}">

@@ -33,6 +33,7 @@
             <li><a href="{{nav_url}}">{{nav_label}}</a></li>
         {{endfor NAVIGATION}}
         <li><a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i>&nbsp;Salir</a></li>
+        <li><a href="index.php?page=Checkout_History"><i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;Histórico Transacciones</a></li>
       </ul>
     </nav>
     {{with login}}

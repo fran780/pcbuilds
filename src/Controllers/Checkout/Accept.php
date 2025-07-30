@@ -17,6 +17,7 @@ class Accept extends PublicController
 
         $result = null;
 
+
         // ✅ Si el token es válido y coincide con sesión, capturar la orden
         if ($token !== "" && $token === $session_token) {
             $PayPalRestApi = new \Utilities\PayPal\PayPalRestApi(
@@ -25,6 +26,8 @@ class Accept extends PublicController
             );
 
             $result = $PayPalRestApi->captureOrder($session_token);
+            $fullDetails = $PayPalRestApi->getOrderDetails($session_token);
+
             $dataview["orderjson"] = json_encode($result, JSON_PRETTY_PRINT);
 
             // ✅ Solo si fue completada, se guarda y se limpia la sesión
@@ -61,6 +64,7 @@ class Accept extends PublicController
         $paypalFee = "";
         $netAmount = "";
         $formattedDate = "";
+        $detail_per_product = [];
 
         if (isset($result->purchase_units[0]->payments->captures[0]->amount)) {
             $amount = $result->purchase_units[0]->payments->captures[0]->amount->value;
@@ -72,6 +76,21 @@ class Accept extends PublicController
             $paypalFee = $breakdown->paypal_fee->value ?? "";
             $netAmount = $breakdown->net_amount->value ?? "";
         }
+
+        if (isset($fullDetails->purchase_units[0]->items)) {
+            foreach ($fullDetails->purchase_units[0]->items as $item) {
+                $detail_per_product[] = [
+                    "name" => $item->name ?? "",
+                    "description" => $item->description ?? "",
+                    "sku" => $item->sku ?? "",
+                    "quantity" => $item->quantity ?? 0,
+                    "unit_amount" => $item->unit_amount->value ?? 0,
+                    "currency_code" => $item->unit_amount->currency_code ?? "",
+                    "tax" => $item->tax->value ?? 0
+                ];
+            }
+        }
+
 
         $rawDate = $result->purchase_units[0]->payments->captures[0]->update_time ?? "";
         if (!empty($rawDate)) {
@@ -97,7 +116,8 @@ class Accept extends PublicController
             "amount" => $amount,
             "currency" => $currency,
             "paypal_fee" => $paypalFee,
-            "net_amount" => $netAmount
+            "net_amount" => $netAmount,
+            "detail_per_product" => $detail_per_product,
         ];
 
         Transactions::addTransaction(
