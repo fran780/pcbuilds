@@ -3,6 +3,7 @@
 namespace Utilities\PayPal;
 
 use Utilities\Paypal\PayPalOrder;
+use Utilities\Paypal\PayPalInvoice;
 
 class PayPalRestApi
 {
@@ -111,27 +112,25 @@ class PayPalRestApi
         return json_decode($response);
     }
 
-    public function getOrderDetails($orderId)
+    // Obtiene los detalles de una orden de PayPal sin capturarla.
+    public static function getOrderDetails($orderId)
     {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->_baseUrl . "/v2/checkout/orders/" . $orderId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "Authorization: Bearer " . $this->getAccessToken()
-            ),
-        ));
+        // Crear solicitud para obtener detalles de la orden
+        $request = new OrdersGetRequest($orderId);
 
-        $response = curl_exec($curl);
-        curl_close($curl);
-        return json_decode($response);
+        // Inicializar cliente PayPal
+        $client = PayPalClient::client();
+
+        // Ejecutar la solicitud a la API
+        $response = $client->execute($request);
+
+        // Retornar la información de la orden
+        return $response;
+    }
+
+    public function getInvoiceClient(): PayPalInvoice
+    {
+        return new PayPalInvoice($this->_baseUrl, $this->getAccessToken());
     }
 
 }

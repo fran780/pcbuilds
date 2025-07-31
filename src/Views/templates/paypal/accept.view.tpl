@@ -40,6 +40,28 @@
       <span class="label"><i class="fa-solid fa-coins"></i> Total:</span>
       <span>{{amount}} {{currency}}</span>
     </div>
+    {{foreach detail_per_product}}
+    <div class="invoice-row">
+      <span class="label"><i class="fa-solid fa-box"></i> Producto:</span>
+      <span>{{name}}</span>
+    </div>
+    <div class="invoice-row">
+      <span class="label"><i class="fa-solid fa-tag"></i> SKU:</span>
+      <span>{{sku}}</span>
+    </div>
+    <div class="invoice-row">
+      <span class="label"><i class="fa-solid fa-cubes"></i> Cantidad:</span>
+      <span>{{quantity}}</span>
+    </div>
+    <div class="invoice-row">
+      <span class="label"><i class="fa-solid fa-dollar-sign"></i> Precio Unitario:</span>
+      <span>{{unit_amount}} {{currency_code}}</span>
+    </div>
+    <div class="invoice-row">
+      <span class="label"><i class="fa-solid fa-percent"></i> Impuesto:</span>
+      <span>{{tax}} {{currency_code}}</span>
+    </div>
+    {{endforeach}}
   </section>
 
   <div class="print-button">

@@ -23,11 +23,36 @@ CREATE TABLE
         CONSTRAINT `carretillaanon_prd_key` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`) ON DELETE NO ACTION ON UPDATE NO ACTION
     );
 
-    CREATE TABLE `transactions` (
-    `transactionId` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ordenes` (
+    `orderid` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `usercod` BIGINT(10) NOT NULL,
-    `orderid` VARCHAR(128) NOT NULL,
+    `transactionId` BIGINT,
+    `order_status` VARCHAR(50) NOT NULL DEFAULT 'Pendiente',
+    `shipping_status` VARCHAR(50) NOT NULL DEFAULT 'Tomando Orden', -- Estado del envío (En camino, En tienda, etc.)
+    `total` DECIMAL(10,2) NOT NULL,
+    `currency` VARCHAR(5) NOT NULL,
+    `orderdate` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`usercod`) REFERENCES `usuario` (`usercod`),
+    FOREIGN KEY (`transactionId`) REFERENCES `transactions` (`transactionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ordenes_detalle` (
+    `orderItemid` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `orderid` BIGINT NOT NULL,
+    `id_producto` INT(11) NOT NULL,
+    `cantidad` INT(5) NOT NULL,
+    `precio` DECIMAL(12, 2) NOT NULL,
     `transdate` DATETIME NOT NULL,
+    FOREIGN KEY (`orderid`) REFERENCES `ordenes` (`orderid`) ON DELETE CASCADE,
+    FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`)
+);
+    
+
+    CREATE TABLE `transactions` (
+    `transactionId` BIGINT NOT NULL AUTO_INCREMENT,
+    `usercod` BIGINT(10) NOT NULL,
+    `orderid` VARCHAR(50) NOT NULL,
+    `transdate` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `transstatus` VARCHAR(45) NOT NULL,
     `amount` DECIMAL(10,2) NOT NULL,
     `currency` VARCHAR(5) NOT NULL,
@@ -36,6 +61,25 @@ CREATE TABLE
     KEY `fk_transactions_user_idx` (`usercod`),
     CONSTRAINT `fk_transactions_user` FOREIGN KEY (`usercod`) REFERENCES `usuario`(`usercod`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+/* * Trigger para actualizar el transactionId en la tabla ordenes
+ * después de insertar una nueva transacción.
+ */
+DELIMITER $$
+CREATE TRIGGER after_transaction_insert
+AFTER INSERT ON transactions
+FOR EACH ROW
+BEGIN
+    DECLARE last_orderid BIGINT;
+    
+    -- Obtener el último orderid de la tabla ordenes
+    SELECT orderid INTO last_orderid FROM ordenes ORDER BY orderid DESC LIMIT 1;
+
+    -- Actualizar el último registro de ordenes con el transactionId recién insertado
+    UPDATE ordenes SET transactionId = NEW.transactionId WHERE orderid = last_orderid;
+END $$
+
 
 INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`) VALUES
 ('Controllers\\Checkout\\Checkout', 'Acceso al Checkout para clientes', 'ACT', 'CTR'),
@@ -57,6 +101,7 @@ INSERT INTO `funciones_roles` (`rolescod`, `fncod`, `fnrolest`, `fnexp`) VALUES
 
 DELIMITER $$
 
+/* Procedimiento para agregar rol de cliente */
 CREATE PROCEDURE addClientRol(IN p_usercod BIGINT)
 BEGIN
     -- Asignar directamente el valor recibido

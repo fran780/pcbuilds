@@ -26,7 +26,10 @@ class Accept extends PublicController
             );
 
             $result = $PayPalRestApi->captureOrder($session_token);
-            $fullDetails = $PayPalRestApi->getOrderDetails($session_token);
+            //$OrderDetails = $PayPalRestApi->getOrderDetails($session_token);
+
+
+
 
             $dataview["orderjson"] = json_encode($result, JSON_PRETTY_PRINT);
 
@@ -64,8 +67,6 @@ class Accept extends PublicController
         $paypalFee = "";
         $netAmount = "";
         $formattedDate = "";
-        $detail_per_product = [];
-
         if (isset($result->purchase_units[0]->payments->captures[0]->amount)) {
             $amount = $result->purchase_units[0]->payments->captures[0]->amount->value;
             $currency = $result->purchase_units[0]->payments->captures[0]->amount->currency_code;
@@ -75,20 +76,6 @@ class Accept extends PublicController
             $breakdown = $result->purchase_units[0]->payments->captures[0]->seller_receivable_breakdown;
             $paypalFee = $breakdown->paypal_fee->value ?? "";
             $netAmount = $breakdown->net_amount->value ?? "";
-        }
-
-        if (isset($fullDetails->purchase_units[0]->items)) {
-            foreach ($fullDetails->purchase_units[0]->items as $item) {
-                $detail_per_product[] = [
-                    "name" => $item->name ?? "",
-                    "description" => $item->description ?? "",
-                    "sku" => $item->sku ?? "",
-                    "quantity" => $item->quantity ?? 0,
-                    "unit_amount" => $item->unit_amount->value ?? 0,
-                    "currency_code" => $item->unit_amount->currency_code ?? "",
-                    "tax" => $item->tax->value ?? 0
-                ];
-            }
         }
 
 
@@ -117,10 +104,9 @@ class Accept extends PublicController
             "currency" => $currency,
             "paypal_fee" => $paypalFee,
             "net_amount" => $netAmount,
-            "detail_per_product" => $detail_per_product,
         ];
 
-        Transactions::addTransaction(
+            $transactionId = Transactions::addTransaction(
             \Utilities\Security::getUserId(),
             $orderId,
             $result->status ?? "",
@@ -128,6 +114,13 @@ class Accept extends PublicController
             $currency,
             json_encode($result)
         );
+
+        
+        $localOrderId = $_SESSION["local_order_id"] ?? null;
+        //Recuperar el orderId de la sesión en una nueva variable
+        if ($localOrderId && $transactionId) {
+            \Dao\Orders\Orders::updatePaypalTransaction($localOrderId, intval($transactionId));
+        }
 
         \Views\Renderer::render("paypal/accept", $dataview);
     }
