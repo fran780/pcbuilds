@@ -31,6 +31,47 @@
       "id": "Menu_OrdersHist",
       "nav_url": "index.php?page=Checkout_History",
       "nav_label": "<i class=\"fas fa-file-invoice-dollar\"></i>&nbsp;Histórico de Ordenes"
+    }, 
+     {
+      "id":"Menu_Admin_Usuarios",
+      "nav_url": "index.php?page=Admin-Usuarios-Usuarios",
+      "nav_label": "Gestión de usuarios"
+    },
+     {
+      "id":"Menu_Admin_Roles",
+      "nav_url": "index.php?page=Admin-Roles-Roles",
+      "nav_label": "Gestión de roles"
+    },
+     {
+      "id":"Menu_Admin_Funciones",
+      "nav_url": "index.php?page=Admin-Funciones-Funciones",
+      "nav_label": "Gestión de permisos"
+    },
+     {
+      "id":"Menu_Admin_FuncionesRoles",
+      "nav_url": "index.php?page=Admin-FuncionesRoles-FuncionesRoles",
+      "nav_label": "Gestión de permisos por usuario"
+    },
+    {
+      "id":"Menu_Admin_RolesUsuarios",
+      "nav_url": "index.php?page=Admin-RolesUsuarios-RolesUsuario",
+      "nav_label": "Gestión de roles por usuario"
+    },
+    {
+      "id":"Menu_Admin_Products",
+      "nav_url": "index.php?page=Admin-Products-Products",
+      "nav_label": "Gestión de productos"
+    },
+   
+     {
+      "id":"Menu_Admin_Categorias",
+      "nav_url": "index.php?page=Admin-Categorias-Categorias",
+      "nav_label": "Gestión de categorias"
+    },
+     {
+      "id":"Menu_Admin_Marcas",
+      "nav_url": "index.php?page=Admin-Marcas-Marcas",
+      "nav_label": "Gestión de marcas"
     }
   ]
 }

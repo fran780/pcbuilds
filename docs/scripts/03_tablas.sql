@@ -1,12 +1,16 @@
+-- Active: 1750516697705@@127.0.0.1@3306@pcbuilds
 
 CREATE TABLE `categoria_producto` (
     `id_categoria` INT AUTO_INCREMENT PRIMARY KEY,
-    `nombre_categoria` VARCHAR(100) NOT NULL
+    `nombre_categoria` VARCHAR(100) NOT NULL,
+    `estado_categoria` VARCHAR(100) NOT NULL,
+
 );
 
 CREATE TABLE `marca_producto` (
     `id_marca` INT AUTO_INCREMENT PRIMARY KEY,
-    `nombre_marca` VARCHAR(100) NOT NULL
+    `nombre_marca` VARCHAR(100) NOT NULL,
+    `estado_marca` VARCHAR(100) NOT NULL,
 );
 
 CREATE TABLE `estado_producto` (

@@ -35,7 +35,7 @@ class Nav
             } else {
                 $roles = \Dao\Security\Security::getRolesByUsuario($userID);
                 $isAdmin = in_array('ADMIN', array_column($roles, 'rolescod'));
-
+$tmpNAVIGATION = []; // Reiniciamos para evitar acumulación
                 if ($isAdmin) {
                     $tmpNAVIGATION = self::getNavFromJson()["private"];
                 } else {

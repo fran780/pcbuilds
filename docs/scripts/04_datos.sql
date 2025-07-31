@@ -184,3 +184,69 @@ INSERT INTO producto (id_producto, nombre_producto, descripcion, precio, stock, 
 /* Cambiar precio a Moneda USD */
 UPDATE producto
 SET precio = ROUND(precio / 24.5, 2);
+
+
+INSERT INTO funciones (
+    fncod,
+    fndsc,
+    fnest,
+    fntyp
+) VALUES
+('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles', 'Listado de Roles', 'ACT', 'CTR'),
+('Controllers\\Admin\\FuncionesRoles\\FuncionRol', 'Controlador Rol individual', 'ACT', 'CTR'),
+('Menu_Admin_FuncionesRoles', 'Crear nuevo rol', 'ACT', 'FNC'),
+('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\update', 'Actualizar rol existente', 'ACT', 'FNC'),
+('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\delete', 'Eliminar o desactivar rol', 'ACT', 'FNC'),
+('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\view', 'Ver detalle de rol', 'ACT', 'FNC');
+
+
+INSERT INTO funciones_roles (
+    rolescod,
+    fncod,
+    fnrolest,
+    fnexp
+) VALUES
+('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionRol', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Menu_Admin_FuncionesRoles', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\update', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\delete', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\view', 'ACT', '2025-10-10 00:00:00');
+
+UPDATE funciones_roles
+SET fnrolest = 'ACT', fnexp = '2025-08-01'
+WHERE rolescod = 'INS' AND fncod = 'Controllers\Admin\FuncionesRoles\FuncionesRoles\update';
+
+-- Funciones (Controladores y funcionalidades de RolesUsuarios)
+INSERT INTO funciones (
+    fncod,
+    fndsc,
+    fnest,
+    fntyp
+) VALUES
+('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios', 'Controlador RolesUsuarios', 'ACT', 'CTR'),
+('Controllers\\Admin\\RolesUsuarios\\RolUsuario', 'Controlador RolesUsuarios', 'ACT', 'CTR'),
+('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\update', 'Listado de roles por usuario', 'ACT', 'FNC'),
+('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\new', 'Asignar rol a usuario', 'ACT', 'FNC'),
+('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\delete', 'Quitar rol a usuario', 'ACT', 'FNC'),
+('Menu_Admin_RolesUsuarios', 'Controlador RolesUsuarios', 'ACT', 'MNU');
+
+-- Asignación de funciones al rol ADMIN
+INSERT INTO funciones_roles (
+    rolescod,
+    fncod,
+    fnrolest,
+    fnexp
+) VALUES
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\update', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\new', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Menu_admin_RolesUsuarios', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\delete', 'ACT', '2025-10-10 00:00:00');
+
+
+ALTER TABLE usuario
+  DROP COLUMN userpswdest,
+  DROP COLUMN userpswdexp,
+  DROP COLUMN useractcod,
+  DROP COLUMN userpswdchg;
