@@ -22,11 +22,6 @@
     }
   ],
   "private": [
-    {
-      "id":"Menu_PaymentCheckout",
-      "nav_url": "index.php?page=Checkout_Checkout",
-      "nav_label": "Carretilla de Compra"
-    },
      {
       "id": "Menu_OrdersHist",
       "nav_url": "index.php?page=Checkout_History",

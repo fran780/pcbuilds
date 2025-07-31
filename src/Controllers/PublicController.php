@@ -41,7 +41,7 @@ abstract class PublicController implements IController
             }
         }
         $userRoles = \Dao\Security\Security::getRolesByUsuario(\Utilities\Security::getUserId());
-        $userRoleClass = in_array('ADMIN', array_column($userRoles, 'rolescod')) ? 'ADMIN' : 'user';
+        $userRoleClass = in_array('ADMIN', array_column($userRoles, 'rolescod')) ? 'ADMIN' : 'PBL';
         \Utilities\Context::setContext('userRole', $userRoleClass);
         $this->getCartCounter();
     }
