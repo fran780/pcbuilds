@@ -47,20 +47,58 @@ CREATE TABLE `ordenes_detalle` (
 
 class Orders extends Table{
     
-     public static function getAll()
+     public static function getAll(
+        int $usercod,
+        string $orderId = "",
+        string $orderStatus = "",    
+        string $shippingStatus = "",
+        int $page = 0,
+        int $itemsPerPage = 10
+     )
     {
-        $sql = "SELECT o.orderid, 
-                    o.usercod, 
-                    o.order_status, 
-                    o.shipping_status,
-                    o.orderdate,
-                    u.username,
-                    t.currency
-                FROM ordenes o
-                LEFT JOIN usuario u ON o.usercod = u.usercod
-                LEFT JOIN transactions t ON o.transactionId = t.transactionId
-                ORDER BY o.orderdate ASC";
-        return self::obtenerRegistros($sql, []);
+        $baseSql = "SELECT o.orderid, o.usercod, o.order_status, o.shipping_status, o.orderdate, o.total, o.currency
+                    FROM ordenes o
+                    LEFT JOIN transactions t ON o.transactionId = t.transactionId
+                    WHERE o.usercod = :usercod";
+        $baseSqlCount = "SELECT COUNT(*) as total FROM ordenes WHERE usercod = :usercod";
+        $conditions = [];
+        $params = ["usercod" => $usercod];
+        if ($orderId !== "") {
+            $conditions[] = "o.orderid LIKE :orderid";
+            $params["orderid"] = "%" . $orderId . "%";
+        }
+        if ($orderStatus !== "") {
+            $conditions[] = "o.order_status = :order_status";
+            $params["order_status"] = $orderStatus;
+        }
+        if ($shippingStatus !== "") {
+            $conditions[] = "o.shipping_status = :shipping_status";
+            $params["shipping_status"] = $shippingStatus;
+        }
+        if (count($conditions) > 0) {
+            $where = " AND " . implode(" AND ", $conditions);
+            $baseSql .= $where;
+            $baseSqlCount .= $where;
+        }
+
+        $total = intval(self::obtenerUnRegistro($baseSqlCount, $params)["total"]);
+        $pagesCount = max(ceil($total / $itemsPerPage), 1);
+        if ($page > $pagesCount - 1) {
+            $page = $pagesCount - 1;
+        }
+        if ($page < 0) {
+            $page = 0;
+        }
+        $baseSql .= " ORDER BY o.orderdate DESC LIMIT " . ($page * $itemsPerPage) . ", " . $itemsPerPage;
+
+        $orders = self::obtenerRegistros($baseSql, $params);
+
+        return [
+            "orders" => $orders,
+            "total" => $total,
+            "page" => $page,
+            "itemsPerPage" => $itemsPerPage
+        ];
     }
 
     public static function getByUserId(int $usercod)

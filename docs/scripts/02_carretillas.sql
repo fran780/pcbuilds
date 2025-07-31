@@ -27,8 +27,8 @@ CREATE TABLE `ordenes` (
     `orderid` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `usercod` BIGINT(10) NOT NULL,
     `transactionId` BIGINT,
-    `order_status` VARCHAR(50) NOT NULL DEFAULT 'Pendiente',
-    `shipping_status` VARCHAR(50) NOT NULL DEFAULT 'Tomando Orden', -- Estado del envío (En camino, En tienda, etc.)
+    `order_status` VARCHAR(50) NOT NULL DEFAULT 'PENDING', -- Estado de la orden "COMPLETED", "PENDING", "FAILED"
+    `shipping_status` VARCHAR(50) NOT NULL DEFAULT 'PENDING', -- "SHIPPED", "PENDING", "DELIVERED"
     `total` DECIMAL(10,2) NOT NULL,
     `currency` VARCHAR(5) NOT NULL,
     `orderdate` DATETIME DEFAULT CURRENT_TIMESTAMP,
