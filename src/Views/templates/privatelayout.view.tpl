@@ -67,8 +67,7 @@
         <div class="social-icons">
           <a href="https://www.facebook.com/share/1F35m5WJ64/"><i class="fab fa-facebook-f"></i></a>
           <a href="https://x.com/pcbuildshn"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.instagram.com/pcbuildshonduras?igsh=MWx0OXZibWRoZGxnZQ=="><i
-              class="fab fa-instagram"></i></a>
+          <a href="https://www.instagram.com/pcbuildshonduras?igsh=MWx0OXZibWRoZGxnZQ=="><i class="fab fa-instagram"></i></a>
         </div>
       </div>
     </div>
