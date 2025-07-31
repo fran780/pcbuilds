@@ -120,6 +120,11 @@ abstract class Table
     }
 }
 
+    protected static function getLastInsertId()
+    {
+        return self::getConn()->lastInsertId();
+    }
+
 
     protected static function _getStructFrom($structure, $data)
     {

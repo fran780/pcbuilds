@@ -220,6 +220,14 @@ class CartDAO extends \Dao\Table
     return $producto;
 }
 
+    public static function getTotalCart(int $usercod)
+    {
+        $sql = "SELECT SUM(crrctd * crrprc) as total FROM carretilla WHERE usercod = :usercod;";
+        $result = self::obtenerUnRegistro($sql, ["usercod" => $usercod]);
+        return $result ? floatval($result["total"]) : 0.0;
+    }
+
+
     public static function finalizeCart(int $usercod)
     {
         $itemsSql = "SELECT id_producto, crrctd FROM carretilla WHERE usercod = :usercod;";

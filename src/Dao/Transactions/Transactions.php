@@ -6,26 +6,32 @@ use Dao\Table;
 class Transactions extends Table
 {
     public static function addTransaction(
-        int $usercod,
-        string $orderId,
-        string $status,
-        float $amount,
-        string $currency,
-        string $orderJson
+    int $usercod,
+    string $orderId,
+    string $status,
+    float $amount,
+    string $currency,
+    string $orderJson
     ) {
-        $sqlstr = "INSERT INTO transactions (usercod, orderid, transdate, transstatus, amount, currency, orderjson) VALUES (:usercod, :orderid, NOW(), :transstatus, :amount, :currency, :orderjson);";
-        return self::executeNonQuery(
-            $sqlstr,
-            [
-                'usercod' => $usercod,
-                'orderid' => $orderId,
-                'transstatus' => $status,
-                'amount' => $amount,
-                'currency' => $currency,
-                'orderjson' => $orderJson
-            ]
-        );
+        $sqlstr = "INSERT INTO transactions 
+            (usercod, orderid, transdate, transstatus, amount, currency, orderjson)
+            VALUES (:usercod, :orderid, NOW(), :transstatus, :amount, :currency, :orderjson);";
+
+        $conn = self::getConn(); // Usa tu método para obtener la conexión PDO
+        $stmt = $conn->prepare($sqlstr);
+        $stmt->execute([
+            'usercod' => $usercod,
+            'orderid' => $orderId,
+            'transstatus' => $status,
+            'amount' => $amount,
+            'currency' => $currency,
+            'orderjson' => $orderJson
+        ]);
+
+        return $conn->lastInsertId(); // Este es el transactionId autogenerado
     }
+
+
 
     public static function getByUser(int $usercod)
     {
@@ -51,6 +57,7 @@ class Transactions extends Table
 
         if (in_array($status, ["COMPLETED", "PENDING", "FAILED"])) {
             $conditions[] = "transstatus = :transstatus";
+            $status = strtoupper($status);
             $params["transstatus"] = $status;
         }
 
@@ -86,5 +93,6 @@ class Transactions extends Table
         $sqlstr = "SELECT * FROM transactions WHERE transactionId = :transactionId;";
         return self::obtenerUnRegistro($sqlstr, ['transactionId' => $transactionId]);
     }
+
 }
 ?>
