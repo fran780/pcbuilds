@@ -1,3 +1,4 @@
+-- Active: 1750516734215@@127.0.0.1@3306@pcbuilds
 
 CREATE TABLE `usuario` (
     `usercod` bigint(10) NOT NULL AUTO_INCREMENT,
@@ -121,6 +122,19 @@ INSERT INTO funciones (fncod, fndsc, fnest, fntyp) VALUES
 ('Menu_PaymentCheckout', 'Entrada del menú para checkout de pagos', 'ACT', 'MNU'),
 ('Menu_TransHist', 'Entrada del menú para historial de transacciones', 'ACT', 'MNU');
 
+INSERT INTO
+    `roles` (
+        `rolescod`,
+        `rolesdsc`,
+        `rolesest`
+    )
+VALUES (
+        'ADMIN',
+        'Administrador',
+        'ACT'
+    ),
+    ('PBL', 'Cliente', 'ACT');
+
 
 INSERT INTO funciones_roles (rolescod, fncod, fnrolest, fnexp) VALUES
 
@@ -177,4 +191,12 @@ INSERT INTO funciones_roles (rolescod, fncod, fnrolest, fnexp) VALUES
 ('ADMIN', 'Menu_Admin_Usuarios', 'ACT', '2025-10-10 00:00:00'),
 ('PBL', 'Controllers\\Checkout\\History', 'ACT', '2026-07-27 03:14:24'),
 ('PBL', 'Controllers\\Checkout\\HistoryDetail', 'ACT', '2026-07-27 03:14:24'),
-('PBL', 'Menu_TransHist', 'ACT', '2026-07-27 03:53:23');
+('PBL', 'Controllers\\Checkout\\Checkout', 'ACT', '2026-07-27 03:14:24');
+
+INSERT into usuario
+(usercod, useremail, username, userpswd, userfching, userpswdest, userpswdexp, userest, useractcod, userpswdchg, usertipo)
+VALUES
+(1, 'cuenta_admin123@gmail.com', 'Administrador', '$2y$10$ClmPPOlQ9PNu6up2Z6F49uAUdBfDrdlcOhraKKB7RhkKyoSYcYohG', '2025-07-31 14:16:43', 'ACT', '2025-10-29 00:00:00', 'ACT', '1574982ad95691c9318622069d6fc453e8f40b4a171833b2d4f11e80c8a9cede', '2025-07-31 14:16:43', 'PBL');
+/*Contraseña es: Contra#123  */
+INSERT into roles_usuarios (usercod, rolescod, roleuserest, roleuserfch, roleuserexp)
+VALUES (1, 'ADMIN', 'ACT', '2025-07-31 14:16:43', '2026-07-31 14:16:43');

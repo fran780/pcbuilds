@@ -48,7 +48,7 @@ class Checkout extends PrivateController
             $orderData = [];
             $orderData["usercod"] = Security::getUserId();
             $orderData["order_status"] = "PENDING"; 
-            $orderData["shipping_status"] = "Tomando Orden"; 
+            $orderData["shipping_status"] = "PENDING"; 
             $orderData["total"] = Cart::getTotalCart(Security::getUserId());
             $orderData["currency"] = "USD";
             $orderData["orderdate"] = date("Y-m-d H:i:s");

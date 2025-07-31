@@ -19,13 +19,18 @@
       "id": "Menu_SignUp",
       "nav_url": "index.php?page=Sec_Register",
       "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Crear Cuenta"
+    },
+    {
+      "id": "Menu_OrdersHist",
+      "nav_url": "index.php?page=Checkout_History",
+      "nav_label": "<i class=\"fas fa-file-invoice-dollar\"></i>&nbsp;Histórico de Ordenes"
     }
   ],
   "private": [
      {
-      "id": "Menu_OrdersHist",
-      "nav_url": "index.php?page=Checkout_History",
-      "nav_label": "<i class=\"fas fa-file-invoice-dollar\"></i>&nbsp;Histórico de Ordenes"
+      "id": "Menu_Pedidos",
+      "nav_url": "index.php?page=Pedidos_Pedidos",
+      "nav_label": "<i class=\"fas fa-file-invoice-dollar\"></i>&nbsp;Pedidos"
     }, 
      {
       "id":"Menu_Admin_Usuarios",
