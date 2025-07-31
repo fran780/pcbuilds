@@ -59,27 +59,8 @@ CREATE TABLE `funciones_roles` (
     CONSTRAINT `rol_funcion_key` FOREIGN KEY (`fncod`) REFERENCES `funciones` (`fncod`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-CREATE TABLE `bitacora` (
-    `bitacoracod` int(11) NOT NULL AUTO_INCREMENT,
-    `bitacorafch` datetime DEFAULT NULL,
-    `bitprograma` varchar(255) DEFAULT NULL,
-    `bitdescripcion` varchar(255) DEFAULT NULL,
-    `bitobservacion` mediumtext,
-    `bitTipo` char(3) DEFAULT NULL,
-    `bitusuario` bigint(18) DEFAULT NULL,
-    PRIMARY KEY (`bitacoracod`)
-) ENGINE = InnoDB AUTO_INCREMENT = 10 DEFAULT CHARSET = utf8;
-
-
-CREATE TABLE Funciones (
-    fncod VARCHAR(255) PRIMARY KEY,
-    fndsc VARCHAR(255),
-    fnest CHAR(3),
-    fnty CHAR(3)
-);
-
 --DATOS 
-INSERT INTO funciones (fncod, fndsc, fnest, fnty) VALUES
+INSERT INTO funciones (fncod, fndsc, fnest, fntyp) VALUES
 
 ('Controllers\\Admin\\Categorias\\Categoria', 'Acceso al controlador de categoría', 'ACT', 'CTR'),
 ('Controllers\\Admin\\Categorias\\Categorias', 'Permiso para ver listado de categorías', 'ACT', 'CTR'),
@@ -171,10 +152,10 @@ INSERT INTO funciones_roles (rolescod, fncod, fnrolest, fnexp) VALUES
 ('ADMIN', 'Controllers\\Admin\\Products\\Products\\new', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Controllers\\Admin\\Products\\Products\\update', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuario', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuario\\delete', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuario\\new', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuario\\update', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolUsuario', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\delete', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\new', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\update', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Controllers\\Admin\\Roles\\Rol', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Controllers\\Admin\\Roles\\Roles', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Controllers\\Admin\\Roles\\Roles\\delete', 'ACT', '2025-10-10 00:00:00'),
@@ -190,11 +171,10 @@ INSERT INTO funciones_roles (rolescod, fncod, fnrolest, fnexp) VALUES
 ('ADMIN', 'Menu_Admin_Funciones', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Menu_Admin_FuncionesRoles', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Menu_Admin_Marcas', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Menu_Admin_Products', 'ACT', '0025-10-10 00:00:00'),
+('ADMIN', 'Menu_Admin_Products', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Menu_Admin_Roles', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Menu_admin_RolesUsuarios', 'ACT', '2025-10-10 00:00:00'),
+('ADMIN', 'Menu_Admin_RolesUsuario', 'ACT', '2025-10-10 00:00:00'),
 ('ADMIN', 'Menu_Admin_Usuarios', 'ACT', '2025-10-10 00:00:00'),
 ('PBL', 'Controllers\\Checkout\\History', 'ACT', '2026-07-27 03:14:24'),
 ('PBL', 'Controllers\\Checkout\\HistoryDetail', 'ACT', '2026-07-27 03:14:24'),
 ('PBL', 'Menu_TransHist', 'ACT', '2026-07-27 03:53:23');
-

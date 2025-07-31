@@ -1,59 +1,59 @@
-INSERT INTO marca_producto (id_marca, nombre_marca) VALUES
-(1, 'AMD'),
-(2, 'Intel'),
-(3, 'Asus'),
-(4, 'MSI'),
-(5, 'ASRock'),
-(6, 'GIGABYTE'),
-(7, 'Patriot'),
-(8, 'Adata'),
-(9, 'Kingston'),
-(10, 'Micron'),
-(11, 'Samsung'),
-(12, 'G.Skill'),
-(13, 'Corsair'),
-(14, 'Arktek'),
-(15, 'Seasonic'),
-(16, 'AeroCool'),
-(17, 'Cooler Master'),
-(18, 'Lian Li'),
-(19, 'Hyte'),
-(20, 'InWin'),
-(21, 'Logitech'),
-(22, 'Razer'),
-(23, 'Argom'),
-(24, 'JNL'),
-(25, 'Sharkoon'),
-(26, 'LG'),
-(27, 'AOC'),
-(28, 'DeepCool'),
-(29, 'Thermaltake'),
-(30, 'EK'),
-(31, 'Genius'),
-(32, 'Thermal Grizzly'),
-(33, 'HP');
-
-INSERT INTO categoria_producto (id_categoria, nombre_categoria) VALUES
-(1, 'Procesadores'),
-(2, 'Placas Madre'),
-(3, 'Memorias RAM'),
-(4, 'Almacenamiento'),
-(5, 'Tarjetas Gráficas'),
-(6, 'Fuentes de poder'),
-(7, 'Gabinetes'),
-(8, 'Mouse'),
-(9, 'Teclados'),
-(10, 'Headsets'),
-(11, 'Silla Gamer'),
-(12, 'Monitores'),
-(13, 'Refrigeración'),
-(14, 'Accesorios'),
-(15, 'Soluciones térmicas'),
-(16, 'Laptops');
-
 INSERT INTO estado_producto (id_estado, estado) VALUES
 (1, 'ACT'),
 (2, 'INA');
+
+INSERT INTO marca_producto (id_marca, nombre_marca, estado_marca) VALUES
+(1, 'AMD', 'ACT'),
+(2, 'Intel', 'ACT'),
+(3, 'Asus', 'ACT'),
+(4, 'MSI', 'ACT'),
+(5, 'ASRock', 'ACT'),
+(6, 'GIGABYTE', 'ACT'),
+(7, 'Patriot', 'ACT'),
+(8, 'Adata', 'ACT'),
+(9, 'Kingston', 'ACT'),
+(10, 'Micron', 'ACT'),
+(11, 'Samsung', 'ACT'),
+(12, 'G.Skill', 'ACT'),
+(13, 'Corsair', 'ACT'),
+(14, 'Arktek', 'ACT'),
+(15, 'Seasonic', 'ACT'),
+(16, 'AeroCool', 'ACT'),
+(17, 'Cooler Master', 'ACT'),
+(18, 'Lian Li', 'ACT'),
+(19, 'Hyte', 'ACT'),
+(20, 'InWin', 'ACT'),
+(21, 'Logitech', 'ACT'),
+(22, 'Razer', 'ACT'),
+(23, 'Argom', 'ACT'),
+(24, 'JNL', 'ACT'),
+(25, 'Sharkoon', 'ACT'),
+(26, 'LG', 'ACT'),
+(27, 'AOC', 'ACT'),
+(28, 'DeepCool', 'ACT'),
+(29, 'Thermaltake', 'ACT'),
+(30, 'EK', 'ACT'),
+(31, 'Genius', 'ACT'),
+(32, 'Thermal Grizzly', 'ACT'),
+(33, 'HP', 'ACT');
+
+INSERT INTO categoria_producto (id_categoria, nombre_categoria, estado_categoria) VALUES
+(1, 'Procesadores', 'ACT'),
+(2, 'Placas Madre', 'ACT'),
+(3, 'Memorias RAM', 'ACT'),
+(4, 'Almacenamiento', 'ACT'),
+(5, 'Tarjetas Gráficas', 'ACT'),
+(6, 'Fuentes de poder', 'ACT'),
+(7, 'Gabinetes', 'ACT'),
+(8, 'Mouse', 'ACT'),
+(9, 'Teclados', 'ACT'),
+(10, 'Headsets', 'ACT'),
+(11, 'Silla Gamer', 'ACT'),
+(12, 'Monitores', 'ACT'),
+(13, 'Refrigeración', 'ACT'),
+(14, 'Accesorios', 'ACT'),
+(15, 'Soluciones térmicas', 'ACT'),
+(16, 'Laptops', 'ACT');
 
 INSERT INTO producto (id_producto, nombre_producto, descripcion, precio, stock, imagen, id_categoria, id_marca, id_estado) VALUES
 (1, 'Core i5', '14400F', 250.47, 10, 'https://www.pcbuildshonduras.com/web/image/product.product/3590/image_1024/%5BBX8071514400F%5D%20Intel%20Core%20i5-14400F?unique=4d4f36d', 1, 2, 1),
@@ -180,73 +180,3 @@ INSERT INTO producto (id_producto, nombre_producto, descripcion, precio, stock, 
 (122, 'X1504ZA-NJ246 15.6', '| I5-1235U | 8GB RAM | 512GB SSD |', 717.27, 4, 'https://www.pcbuildshonduras.com/web/image/product.product/3355/image_1024/%5B90NB1022-M00UA0%5D%20LAPTOP%20ASUS%20X1504ZA-NJ246%2015.6%22%20%7C%20I5-1235U%20%0A%7C%208GB%20RAM%20%7C%20512GB%20SSD%20%7C%20?unique=e0a5bcd', 16, 3, 1),
 (123, 'E1504GA-NJ276 15.6', '| I3-N305 | 8GB RAM | 512GB SSD |', 527.51, 8, 'https://www.pcbuildshonduras.com/web/image/product.product/3354/image_1024/%5B90NB0ZT2-M00LM0%5D%20LAPTOP%20ASUS%20E1504GA-NJ276%2015.6%22%20%7C%20I3-N305%20%0A%7C%208GB%20RAM%20%7C%20512GB%20SSD%20%7C?unique=8be612c', 16, 3, 1),
 (124, 'MODERN 15 B7M-426 15.6', 'RYZEN 5 7530U | 16GB RAM | 512GB SSD |', 907.02, 11, 'https://www.pcbuildshonduras.com/web/image/product.product/3353/image_1024/%5B9S7-15HK12-426%5D%20LAPTOP%20MSI%20MODERN%2015%20B7M-426%2015.6%22%20RYZEN%205%207530U%20%7C%2016GB%20RAM%20%7C%20512GB%20SSD%20%7C%20?unique=e0a5bcd', 16, 4, 1);
-
-/* Cambiar precio a Moneda USD */
-UPDATE producto
-SET precio = ROUND(precio / 24.5, 2);
-
-
-INSERT INTO funciones (
-    fncod,
-    fndsc,
-    fnest,
-    fntyp
-) VALUES
-('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles', 'Listado de Roles', 'ACT', 'CTR'),
-('Controllers\\Admin\\FuncionesRoles\\FuncionRol', 'Controlador Rol individual', 'ACT', 'CTR'),
-('Menu_Admin_FuncionesRoles', 'Crear nuevo rol', 'ACT', 'FNC'),
-('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\update', 'Actualizar rol existente', 'ACT', 'FNC'),
-('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\delete', 'Eliminar o desactivar rol', 'ACT', 'FNC'),
-('Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\view', 'Ver detalle de rol', 'ACT', 'FNC');
-
-
-INSERT INTO funciones_roles (
-    rolescod,
-    fncod,
-    fnrolest,
-    fnexp
-) VALUES
-('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionRol', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Menu_Admin_FuncionesRoles', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\update', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\delete', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\FuncionesRoles\\FuncionesRoles\\view', 'ACT', '2025-10-10 00:00:00');
-
-UPDATE funciones_roles
-SET fnrolest = 'ACT', fnexp = '2025-08-01'
-WHERE rolescod = 'INS' AND fncod = 'Controllers\Admin\FuncionesRoles\FuncionesRoles\update';
-
--- Funciones (Controladores y funcionalidades de RolesUsuarios)
-INSERT INTO funciones (
-    fncod,
-    fndsc,
-    fnest,
-    fntyp
-) VALUES
-('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios', 'Controlador RolesUsuarios', 'ACT', 'CTR'),
-('Controllers\\Admin\\RolesUsuarios\\RolUsuario', 'Controlador RolesUsuarios', 'ACT', 'CTR'),
-('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\update', 'Listado de roles por usuario', 'ACT', 'FNC'),
-('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\new', 'Asignar rol a usuario', 'ACT', 'FNC'),
-('Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\delete', 'Quitar rol a usuario', 'ACT', 'FNC'),
-('Menu_Admin_RolesUsuarios', 'Controlador RolesUsuarios', 'ACT', 'MNU');
-
--- Asignación de funciones al rol ADMIN
-INSERT INTO funciones_roles (
-    rolescod,
-    fncod,
-    fnrolest,
-    fnexp
-) VALUES
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\update', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\new', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Menu_admin_RolesUsuarios', 'ACT', '2025-10-10 00:00:00'),
-('ADMIN', 'Controllers\\Admin\\RolesUsuarios\\RolesUsuarios\\delete', 'ACT', '2025-10-10 00:00:00');
-
-
-ALTER TABLE usuario
-  DROP COLUMN userpswdest,
-  DROP COLUMN userpswdexp,
-  DROP COLUMN useractcod,
-  DROP COLUMN userpswdchg;
