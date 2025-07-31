@@ -1,4 +1,4 @@
--- Active: 1750516697761@@127.0.0.1@3306@pcbuilds
+-- Active: 1750516734215@@127.0.0.1@3306@pcbuilds
 CREATE TABLE `carretilla` (
     `usercod` BIGINT(10) NOT NULL,
     `id_producto` int(11) NOT NULL,
@@ -79,71 +79,6 @@ BEGIN
 END $$
 
 DELIMITER $$
-
-INSERT INTO
-    `funciones` (
-        `fncod`,
-        `fndsc`,
-        `fnest`,
-        `fntyp`
-    )
-VALUES (
-        'Controllers\\Checkout\\Checkout',
-        'Acceso al Checkout para clientes',
-        'ACT',
-        'CTR'
-    ),
-    (
-        'Controllers\\Checkout\\History',
-        'Listado Historial de Ordenes',
-        'ACT',
-        'CTR'
-    ),
-    (
-        'Controllers\\Checkout\\HistoryDetail',
-        'Formulario de Historial de Ordenes',
-        'ACT',
-        'CTR'
-    );
-
-INSERT INTO
-    `roles` (
-        `rolescod`,
-        `rolesdsc`,
-        `rolesest`
-    )
-VALUES (
-        'ADMIN',
-        'Administrador',
-        'ACT'
-    ),
-    ('PBL', 'Cliente', 'ACT');
-
-INSERT INTO
-    `funciones_roles` (
-        `rolescod`,
-        `fncod`,
-        `fnrolest`,
-        `fnexp`
-    )
-VALUES (
-        'PBL',
-        'Controllers\\Checkout\\Checkout',
-        'ACT',
-        '2026-07-27 03:14:24'
-    ),
-    (
-        'PBL',
-        'Controllers\\Checkout\\History',
-        'ACT',
-        '2026-07-27 03:14:24'
-    ),
-    (
-        'PBL',
-        'Controllers\\Checkout\\HistoryDetail',
-        'ACT',
-        '2026-07-27 03:14:24'
-    );
 
 DELIMITER $$
 

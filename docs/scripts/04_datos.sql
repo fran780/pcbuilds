@@ -180,3 +180,6 @@ INSERT INTO producto (id_producto, nombre_producto, descripcion, precio, stock, 
 (122, 'X1504ZA-NJ246 15.6', '| I5-1235U | 8GB RAM | 512GB SSD |', 717.27, 4, 'https://www.pcbuildshonduras.com/web/image/product.product/3355/image_1024/%5B90NB1022-M00UA0%5D%20LAPTOP%20ASUS%20X1504ZA-NJ246%2015.6%22%20%7C%20I5-1235U%20%0A%7C%208GB%20RAM%20%7C%20512GB%20SSD%20%7C%20?unique=e0a5bcd', 16, 3, 1),
 (123, 'E1504GA-NJ276 15.6', '| I3-N305 | 8GB RAM | 512GB SSD |', 527.51, 8, 'https://www.pcbuildshonduras.com/web/image/product.product/3354/image_1024/%5B90NB0ZT2-M00LM0%5D%20LAPTOP%20ASUS%20E1504GA-NJ276%2015.6%22%20%7C%20I3-N305%20%0A%7C%208GB%20RAM%20%7C%20512GB%20SSD%20%7C?unique=8be612c', 16, 3, 1),
 (124, 'MODERN 15 B7M-426 15.6', 'RYZEN 5 7530U | 16GB RAM | 512GB SSD |', 907.02, 11, 'https://www.pcbuildshonduras.com/web/image/product.product/3353/image_1024/%5B9S7-15HK12-426%5D%20LAPTOP%20MSI%20MODERN%2015%20B7M-426%2015.6%22%20RYZEN%205%207530U%20%7C%2016GB%20RAM%20%7C%20512GB%20SSD%20%7C%20?unique=e0a5bcd', 16, 4, 1);
+
+
+
