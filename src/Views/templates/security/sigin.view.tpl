@@ -13,6 +13,17 @@
         <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorEmail}}</div>
         {{endif errorEmail}}
       </div>
+
+      <div class="row">
+        <label class="col-12 col-m-4 flex align-center" for="txtUser">Nombre de usuario</label>
+        <div class="col-12 col-m-8">
+          <input class="width-full" type="user" id="txtUser" name="txtUser" value="{{txtUser}}" />
+        </div>
+        {{if errorUser}}
+        <div class="error col-12 py-2 col-m-8 offset-m-4">{{errorUser}}</div>
+        {{endif errorUser}}
+      </div>
+
       <div class="row">
         <label class="col-12 col-m-4 flex align-center" for="txtPswd">Contraseña</label>
         <div class="col-12 col-m-8">

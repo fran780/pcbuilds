@@ -25,6 +25,35 @@ class Nav
                     $tmpNAVIGATION[] = $navEntry;
                 }
             }
+            if ($userID === 0) {
+            $tmpNAVIGATION = self::getNavFromJson()["public"];
+            $tmpNAVIGATION = array_filter($tmpNAVIGATION, function($item) {
+                return $item["id"] !== "orders";
+            });
+            $tmpNAVIGATION = array_values($tmpNAVIGATION);
+
+            } else {
+                $roles = \Dao\Security\Security::getRolesByUsuario($userID);
+                $isAdmin = in_array('ADMIN', array_column($roles, 'rolescod'));
+
+                if ($isAdmin) {
+                    $tmpNAVIGATION = self::getNavFromJson()["private"];
+                } else {
+                    $navigationData = self::getNavFromJson()["private"];
+                    foreach ($navigationData as $navEntry) {
+                        if (Security::isAuthorized($userID, $navEntry["id"], 'MNU')) {
+                            $tmpNAVIGATION[] = $navEntry;
+                        }
+                    }
+                    if (empty($tmpNAVIGATION)) {
+                        $publicMenu = self::getNavFromJson()["public"];
+                        $tmpNAVIGATION = array_filter($publicMenu, function($item) {
+                            return !in_array($item["id"], ["Menu_SignIn", "Menu_SignUp"]);
+                        });
+                        $tmpNAVIGATION = array_values($tmpNAVIGATION);
+                    }
+                }
+            }
             $saveToSession = intval(Context::getContextByKey("DEVELOPMENT")) !== 1;
             Context::setContext("NAVIGATION", $tmpNAVIGATION, $saveToSession);
         }

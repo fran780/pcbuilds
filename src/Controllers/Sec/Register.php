@@ -12,18 +12,21 @@ class Register extends PublicController
     private $txtPswd = "";
     private $errorEmail ="";
     private $errorPswd = "";
+    private $errorUser = "";
     private $hasErrors = false;
     public function run() :void
     {
 
         if ($this->isPostBack()) {
             $this->txtEmail = $_POST["txtEmail"];
+            $this->txtUser = $_POST["txtUser"];
             $this->txtPswd = $_POST["txtPswd"];
             //validaciones
             if (!(Validators::IsValidEmail($this->txtEmail))) {
                 $this->errorEmail = "El correo no tiene el formato adecuado";
                 $this->hasErrors = true;
             }
+            
             if (!Validators::IsValidPassword($this->txtPswd)) {
                 $this->errorPswd = "La contraseña debe tener al menos 8 caracteres una mayúscula, un número y un caracter especial.";
                 $this->hasErrors = true;
@@ -31,7 +34,7 @@ class Register extends PublicController
 
             if (!$this->hasErrors) {
                 try{
-                    if (\Dao\Security\Security::newUsuario($this->txtEmail, $this->txtPswd)) {
+                    if (\Dao\Security\Security::newUsuario($this->txtEmail, $this->txtUser, $this->txtPswd)) {
                         \Utilities\Site::redirectToWithMsg("index.php?page=sec_login", "¡Usuario Registrado Satisfactoriamente!");
                     }
                 } catch (Error $ex){
