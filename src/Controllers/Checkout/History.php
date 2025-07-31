@@ -3,123 +3,170 @@
 namespace Controllers\Checkout;
 
 use Controllers\PrivateController;
-use Dao\Transactions\Transactions;
-use Utilities\Security;
-use Utilities\Context;
-use Utilities\Paging;
+use Dao\Orders\Orders as OrdenesDAO;
+use Views\Renderer;
+use Utilities\Site;
+use Utilities\Validators;
 
-class History extends PrivateController
+const LIST_URL = "index.php?page=Checkout_History";
+
+class Order extends PrivateController
 {
-    private $orderId = "";
-    private $status = "ALL";
-    private $pageNumber = 1;
-    private $itemsPerPage = 10;
-    private $transactions = [];
-    private $total = 0;
-    private $pages = 1;
-    private $viewData = [];
+    private array $viewData;
+    private array $modes;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->viewData = [
+            "mode" => "",
+            "orderId" => 0,
+            "order_status" => "",
+            "shipping_status" => "",
+            "order_date" => "",
+            "userName" => "",
+            "modeDsc" => "",
+            "errors" => [],
+            "cancelLabel" => "Cancelar",
+            "showConfirm" => true,
+            "readonly" => "",
+            "readonlyShipping" => "" 
+        ];
+
+        $this->modes = [
+            "UPD" => "Actualizar estado de envío para la orden #%s",
+        ];
+    }
 
     public function run(): void
     {
-        $this->getParamsFromContext();
-        $this->getParams();
+        $this->getQueryParamsData();
 
-        $userId = Security::getUserId();
-        $result = Transactions::getTransactions(
-            $userId,
-            $this->orderId,
-            $this->status === "ALL" ? "" : $this->status,
-            $this->pageNumber - 1,
-            $this->itemsPerPage
-        );
-        $this->transactions = $result["transactions"];
-        $this->total = $result["total"];
-        $this->pages = max(1, ceil($this->total / $this->itemsPerPage));
-        if ($this->pageNumber > $this->pages) {
-            $this->pageNumber = $this->pages;
+        $this->getDataFromDB();
+
+        if ($this->isPostBack()) {
+            $this->getBodyData();
+            if ($this->validateData()) {
+                $this->processData();
+            }
         }
 
-        foreach ($this->transactions as &$txn) {
-            $date = new \DateTime($txn["transdate"]);
-            $txn["transdate"] = $date->format("Y-m-d");
-            $txn["amount"] = number_format($txn["amount"], 2);
-            $txn["statusClass"] = $this->getStatusClass($txn["transstatus"]);
-        }
-
-        $this->setParamsToContext();
         $this->prepareViewData();
 
-        \Views\Renderer::render("paypal/history", $this->viewData);
+        Renderer::render("modules/orders/order", $this->viewData);
     }
 
-    private function getParams(): void
+    private function throwError(string $message, string $logMessage = "")
     {
-        $this->orderId = $_GET["orderid"] ?? $this->orderId;
-        $this->status = $_GET["status"] ?? $this->status;
-        if (!in_array($this->status, ["ALL", "COMPLETED", "PENDING", "FAILED"])) {
-            $this->status = "ALL";
+        if (!empty($logMessage)) {
+            error_log(sprintf("%s - %s", $this->name, $logMessage));
         }
-        $this->pageNumber = intval($_GET["pageNum"] ?? $this->pageNumber);
-        $this->itemsPerPage = intval($_GET["itemsPerPage"] ?? $this->itemsPerPage);
-        if ($this->pageNumber < 1) {
-            $this->pageNumber = 1;
-        }
-        if ($this->itemsPerPage < 1) {
-            $this->itemsPerPage = 10;
-        }
+        Site::redirectToWithMsg(LIST_URL, $message);
     }
 
-    private function getParamsFromContext(): void
+    private function innerError(string $scope, string $message)
     {
-        $this->orderId = Context::getContextByKey("history_orderid");
-        $this->status = Context::getContextByKey("history_status") ?: $this->status;
-        $this->pageNumber = intval(Context::getContextByKey("history_page"));
-        $this->itemsPerPage = intval(Context::getContextByKey("history_itemsPerPage"));
-        if ($this->pageNumber < 1) {
-            $this->pageNumber = 1;
-        }
-        if ($this->itemsPerPage < 1) {
-            $this->itemsPerPage = 10;
-        }
-        if ($this->status === "") {
-            $this->status = "ALL";
+        if (!isset($this->viewData["errors"][$scope])) {
+            $this->viewData["errors"][$scope] = [$message];
+        } else {
+            $this->viewData["errors"][$scope][] = $message;
         }
     }
 
-    private function setParamsToContext(): void
+    private function getQueryParamsData()
     {
-        Context::setContext("history_orderid", $this->orderId, true);
-        Context::setContext("history_status", $this->status, true);
-        Context::setContext("history_page", $this->pageNumber, true);
-        Context::setContext("history_itemsPerPage", $this->itemsPerPage, true);
+        if (!isset($_GET["mode"])) {
+            $this->throwError("Error: Modo no definido.", "Falta parámetro mode");
+        }
+
+        $this->viewData["mode"] = $_GET["mode"];
+
+        if (!isset($this->modes[$this->viewData["mode"]])) {
+            $this->throwError("Error: Modo inválido.", "Modo inválido: " . $this->viewData["mode"]);
+        }
+
+        if (!isset($_GET["id"]) || !is_numeric($_GET["id"])) {
+            $this->throwError("Error: ID no válido.", "ID faltante o inválido");
+        }
+
+        $this->viewData["orderId"] = intval($_GET["id"]);
     }
 
-    private function prepareViewData(): void
+    private function getDataFromDB()
     {
-        $this->viewData["orderid"] = $this->orderId;
-        $this->viewData["status"] = $this->status;
-        $statusKey = "status_" . $this->status;
-        $this->viewData[$statusKey] = "selected";
-        $this->viewData["pageNum"] = $this->pageNumber;
-        $this->viewData["itemsPerPage"] = $this->itemsPerPage;
-        $this->viewData["transactions"] = $this->transactions;
-        $this->viewData["pagination"] = Paging::getPagination(
-            $this->total,
-            $this->itemsPerPage,
-            $this->pageNumber,
-            "index.php?page=Checkout_History",
-            "Checkout_History"
+        $order = OrdenesDAO::getById($this->viewData["orderId"]);
+        if ($order) {
+            $this->viewData["order_status"] = $order["order_status"];
+            $this->viewData["shipping_status"] = $order["shipping_status"];
+            $this->viewData["order_date"] = $order["order_date"];
+            $this->viewData["userName"] = $order["userName"] ?? "";
+        } else {
+            $this->throwError("Orden no encontrada.", "ID: " . $this->viewData["orderId"]);
+        }
+    }
+
+    private function getBodyData()
+    {
+        if (!isset($_POST["orderId"]) || intval($_POST["orderId"]) !== $this->viewData["orderId"]) {
+            $this->throwError("Error: ID inconsistente.");
+        }
+
+        if (!isset($_POST["shipping_status"])) {
+            $this->throwError("Error: Falta el estado de envío.");
+        }
+
+        if (!isset($_POST["xsrtoken"]) || $_POST["xsrtoken"] !== $_SESSION[$this->name . "-xsrtoken"]) {
+            $this->throwError("Error de seguridad: Token inválido.");
+        }
+
+        $this->viewData["shipping_status"] = trim($_POST["shipping_status"]);
+    }
+
+    private function validateData(): bool
+    {
+        if (Validators::IsEmpty($this->viewData["shipping_status"])) {
+            $this->innerError("shipping_status", "El estado de envío es requerido.");
+        }
+
+        return count($this->viewData["errors"]) === 0;
+    }
+
+    private function processData()
+    {
+        if (OrdenesDAO::updateShippingStatus(
+            $this->viewData["orderId"],
+            $this->viewData["shipping_status"]
+        ) > 0) {
+            Site::redirectToWithMsg(LIST_URL, "Estado de envío actualizado correctamente.");
+        } else {
+            $this->innerError("global", "No se pudo actualizar el estado de envío.");
+        }
+    }
+
+    private function prepareViewData()
+    {
+        $this->viewData["modeDsc"] = sprintf(
+            $this->modes[$this->viewData["mode"]],
+            $this->viewData["orderId"]
         );
-    }
 
-    private function getStatusClass(string $status): string
-    {
-        $map = [
-            "COMPLETED" => "text-success",
-            "PENDING" => "text-warning",
-            "FAILED" => "text-danger"
-        ];
-        return $map[$status] ?? "";
+        // Solo el campo shipping_status es editable
+        $this->viewData["readonly"] = "readonly";
+        $this->viewData["readonlyShipping"] = ""; 
+
+        // Marcar opciones seleccionadas
+        $this->viewData["shipping_status_CAMINO"] = $this->viewData["shipping_status"] === "En camino" ? "selected" : "";
+        $this->viewData["shipping_status_RECOGER"] = $this->viewData["shipping_status"] === "Listo para recoger" ? "selected" : "";
+
+        if (count($this->viewData["errors"]) > 0) {
+            foreach ($this->viewData["errors"] as $scope => $errorsArray) {
+                $this->viewData["errors_" . $scope] = $errorsArray;
+            }
+        }
+
+        $this->viewData["timestamp"] = time();
+        $this->viewData["xsrtoken"] = hash("sha256", json_encode($this->viewData));
+        $_SESSION[$this->name . "-xsrtoken"] = $this->viewData["xsrtoken"];
     }
 }

@@ -41,8 +41,7 @@
         <span class="cart-items">{{if ~CART_ITEMS}}{{~CART_ITEMS}}{{endif ~CART_ITEMS}}</span>
       </i>
     </a>
-    <span class="username">{{userName}} <a href="index.php?page=sec_logout"><i
-          class="fas fa-sign-out-alt">Salir</i></a></span>
+        <span class="username">{{userName}} <a href="index.php?page=sec_logout"><i class="fas fa-sign-out-alt"></i></a></span>
     {{endwith login}}
   </header>
   <main>
