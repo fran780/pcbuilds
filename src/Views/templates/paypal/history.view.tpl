@@ -24,6 +24,7 @@
                         <option value="SHIPPED" {{shippingStatus_SHIPPED}}>Enviado</option>
                         <option value="PENDING" {{shippingStatus_PENDING}}>Pendiente</option>
                         <option value="DELIVERED" {{shippingStatus_DELIVERED}}>Entregado</option>
+                    </select>
                 </div>
                 <div class="col-4 align-end">
                     <button type="submit">Filtrar</button>
@@ -47,7 +48,6 @@
             </tr>
         </thead>
         <tbody>
-            <!--
             {{foreach orders}}
             <tr>
                 <td class="center">{{orderid}}</td>
@@ -65,7 +65,6 @@
                 </td>
             </tr>
             {{endfor orders}}
-            -->
         </tbody>
     </table>
     {{pagination}}

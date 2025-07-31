@@ -130,7 +130,7 @@ class Orders extends Table{
     public static function deleteOrder(int $orderId)
     {
         $sql = "DELETE FROM ordenes WHERE orderid = :orderid";
-        return self::executeNonQuery($sql, ["orderid" => $orderid]);
+        return self::executeNonQuery($sql, ["orderid" => $orderId]);
     }
 
     public static function getById(int $orderid)
@@ -138,7 +138,7 @@ class Orders extends Table{
         $sql = "SELECT o.orderid, o.usercod, o.order_status, o.shipping_status, o.orderdate, u.username, pt.currency
                 FROM ordenes o
                 LEFT JOIN usuario u ON o.usercod = u.usercod
-                LEFT JOIN transacciones pt ON o.transaction_id = pt.id_transaction
+                LEFT JOIN transactions pt ON o.transactionId = pt.transactionId
                 WHERE o.orderid = :orderid";
         return self::obtenerUnRegistro($sql, ["orderid" => $orderid]);
     }

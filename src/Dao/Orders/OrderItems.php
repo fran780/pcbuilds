@@ -48,10 +48,10 @@ class OrderItems extends Table
     public static function getByOrderId(int $orderId)
     {
         $sql = "SELECT od.orderItemid, od.id_producto, od.cantidad, od.precio, p.nombre_producto
-                FROM ordenes_detalles od
+                FROM ordenes_detalle od
                 LEFT JOIN producto p ON od.id_producto = p.id_producto
                 WHERE od.orderid = :orderid";
-        return self::obtenerRegistros($sql, ["orderid" => $orderid]);
+        return self::obtenerRegistros($sql, ["orderid" => $orderId]);
     }
 
     public static function getTotalByOrderId(int $orderid)

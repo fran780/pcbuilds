@@ -73,8 +73,8 @@ class Checkout extends PrivateController
             // ✅ Procesar pago
             $PayPalOrder = new \Utilities\Paypal\PayPalOrder(
                 "test" . (time() - 10000000),
-                "http://localhost/Proyecto_pcbuildshonduras/index.php?page=Checkout_Error",
-                "http://localhost/Proyecto_pcbuildshonduras/index.php?page=Checkout_Accept"
+                "http://localhost/negociosweb/Proyecto_pcbuildshonduras/index.php?page=Checkout_Error",
+                "http://localhost/negociosweb/Proyecto_pcbuildshonduras/index.php?page=Checkout_Accept"
             );
 
             $viewData["carretilla"] = $carretilla;
