@@ -51,6 +51,7 @@
     <h2>{{nombre_producto}}</h2>
     <span class="badge">{{nombre_marca}}</span>
     <p>{{descripcion}}</p>
+    <span class="stock">Stock: {{stock}}</span>
     <span class="price">USD {{precio}}</span>
 
     <form action="index.php?page=tienda" method="post">

@@ -39,12 +39,18 @@ class CartDAO extends \Dao\Table
         }
         foreach ($prodsCarretillaAutorizada as $producto) {
             if (isset($productosCurados[$producto["id_producto"]])) {
-                $productosCurados[$producto["id_producto"]]["stock"] -= $producto["reserved"];
+                $productosCurados[$producto["id_producto"]]["stock"] = max(
+                    0,
+                    $productosCurados[$producto["id_producto"]]["stock"] - $producto["reserved"]
+                );
             }
         }
         foreach ($prodsCarretillaNAutorizada as $producto) {
             if (isset($productosCurados[$producto["id_producto"]])) {
-                $productosCurados[$producto["id_producto"]]["stock"] -= $producto["reserved"];
+                $productosCurados[$producto["id_producto"]]["stock"] = max(
+                    0,
+                    $productosCurados[$producto["id_producto"]]["stock"] - $producto["reserved"]
+                );
             }
         }
         $productosDisponibles = null;
@@ -53,7 +59,7 @@ class CartDAO extends \Dao\Table
         return $productosCurados;
     }
 
-        public static function getProductoDisponible($productId)
+    public static function getProductoDisponible($productId)
     {
         $sqlAllProductosActivos = "SELECT * from producto where id_estado in ('1') and id_producto=:productId;";
         $productosDisponibles = self::obtenerRegistros($sqlAllProductosActivos, array("productId" => $productId));
@@ -84,12 +90,18 @@ class CartDAO extends \Dao\Table
         }
         foreach ($prodsCarretillaAutorizada as $producto) {
             if (isset($productosCurados[$producto["id_producto"]])) {
-                $productosCurados[$producto["id_producto"]]["productStock"] -= $producto["reserved"];
+                $productosCurados[$producto["id_producto"]]["stock"] = max(
+                    0,
+                    $productosCurados[$producto["id_producto"]]["stock"] - $producto["reserved"]
+                );
             }
         }
         foreach ($prodsCarretillaNAutorizada as $producto) {
             if (isset($productosCurados[$producto["id_producto"]])) {
-                $productosCurados[$producto["id_producto"]]["productStock"] -= $producto["reserved"];
+                $productosCurados[$producto["id_producto"]]["stock"] = max(
+                    0,
+                    $productosCurados[$producto["id_producto"]]["stock"] - $producto["reserved"]
+                );
             }
         }
         $productosDisponibles = null;
@@ -101,14 +113,14 @@ class CartDAO extends \Dao\Table
     //Function para agregar un producto a la carretilla anónima
     //Si el producto ya existe, se actualiza la cantidad
     public static function addToAnonCart(
-    int $productId,
-    string $anonCod,
-    int $amount,
-    float $price
+        int $productId,
+        string $anonCod,
+        int $amount,
+        float $price
     ) {
         $validateSql = "SELECT * from carretillaanon where anoncod = :anoncod and id_producto = :id_producto";
         $producto = self::obtenerUnRegistro($validateSql, ["anoncod" => $anonCod, "id_producto" => $productId]);
-        
+
         if ($producto) {
             if ($producto["crrctd"] + $amount <= 0) {
                 $deleteSql = "DELETE from carretillaanon where anoncod = :anoncod and id_producto = :id_producto;";
@@ -126,7 +138,7 @@ class CartDAO extends \Dao\Table
             }
             return 0;
         }
-}
+    }
 
 
     //Function para obtener la carretilla anónima
@@ -146,10 +158,10 @@ class CartDAO extends \Dao\Table
     //Function para agregar un producto a la carretilla autorizada
     //Si el producto ya existe, se actualiza la cantidad
     public static function addToAuthCart(
-    int $productId,
-    int $usercod,
-    int $amount,
-    float $price
+        int $productId,
+        int $usercod,
+        int $amount,
+        float $price
     ) {
         $validateSql = "SELECT * from carretilla where usercod = :usercod and id_producto = :id_producto";
         $producto = self::obtenerUnRegistro($validateSql, ["usercod" => $usercod, "id_producto" => $productId]);
@@ -171,7 +183,7 @@ class CartDAO extends \Dao\Table
             return 0;
         }
     }
-    
+
     //Function para mover los productos de la carretilla anónima a la carretilla autorizada para el momento de pago
     public static function moveAnonToAuth(
         string $anonCod,
@@ -187,38 +199,39 @@ class CartDAO extends \Dao\Table
     }
 
     public static function getProducto($productId)
-{
-    $sqlProducto = "SELECT * FROM producto WHERE id_producto = :id_producto;";
-    $producto = self::obtenerUnRegistro($sqlProducto, ["id_producto" => $productId]);
+    {
+        $sqlProducto = "SELECT * FROM producto WHERE id_producto = :id_producto;";
+        $producto = self::obtenerUnRegistro($sqlProducto, ["id_producto" => $productId]);
 
-    if (!$producto) {
-        return null; // No se encontró el producto
-    }
+        if (!$producto) {
+            return null; // No se encontró el producto
+        }
 
-    // Calcular reservas en carretilla autorizada
-    $deltaAutorizada = \Utilities\Cart\CartFns::getAuthTimeDelta();
-    $sqlAutorizada = "SELECT SUM(crrctd) as reserved FROM carretilla 
+        // Calcular reservas en carretilla autorizada
+        $deltaAutorizada = \Utilities\Cart\CartFns::getAuthTimeDelta();
+        $sqlAutorizada = "SELECT SUM(crrctd) as reserved FROM carretilla 
                       WHERE id_producto = :id_producto AND TIME_TO_SEC(TIMEDIFF(NOW(), crrfching)) <= :delta;";
-    $resAutorizada = self::obtenerUnRegistro($sqlAutorizada, [
-        "id_producto" => $productId,
-        "delta" => $deltaAutorizada
-    ]);
+        $resAutorizada = self::obtenerUnRegistro($sqlAutorizada, [
+            "id_producto" => $productId,
+            "delta" => $deltaAutorizada
+        ]);
 
-    // Calcular reservas en carretilla anónima
-    $deltaNoAutorizada = \Utilities\Cart\CartFns::getUnAuthTimeDelta();
-    $sqlNoAutorizada = "SELECT SUM(crrctd) as reserved FROM carretillaanon 
+        // Calcular reservas en carretilla anónima
+        $deltaNoAutorizada = \Utilities\Cart\CartFns::getUnAuthTimeDelta();
+        $sqlNoAutorizada = "SELECT SUM(crrctd) as reserved FROM carretillaanon 
                         WHERE id_producto = :id_producto AND TIME_TO_SEC(TIMEDIFF(NOW(), crrfching)) <= :delta;";
-    $resNoAutorizada = self::obtenerUnRegistro($sqlNoAutorizada, [
-        "id_producto" => $productId,
-        "delta" => $deltaNoAutorizada
-    ]);
+        $resNoAutorizada = self::obtenerUnRegistro($sqlNoAutorizada, [
+            "id_producto" => $productId,
+            "delta" => $deltaNoAutorizada
+        ]);
 
-    // Calcular stock real
-    $reservados = intval($resAutorizada["reserved"] ?? 0) + intval($resNoAutorizada["reserved"] ?? 0);
-    $producto["stock_disponible"] = $producto["stock"] - $reservados;
+        // Calcular stock real
+        $reservados = intval($resAutorizada["reserved"] ?? 0) + intval($resNoAutorizada["reserved"] ?? 0);
+        $producto["stock_disponible"] = max(0, $producto["stock"] - $reservados);
+        $producto["stock"] = $producto["stock_disponible"];
 
-    return $producto;
-}
+        return $producto;
+    }
 
     public static function getTotalCart(int $usercod)
     {
@@ -234,7 +247,7 @@ class CartDAO extends \Dao\Table
         $items = self::obtenerRegistros($itemsSql, ["usercod" => $usercod]);
 
         foreach ($items as $item) {
-        $updateSql = "UPDATE producto SET stock = stock - :crrctd WHERE id_producto = :id_producto;";
+            $updateSql = "UPDATE producto SET stock = stock - :crrctd WHERE id_producto = :id_producto;";
             self::executeNonQuery(
                 $updateSql,
                 [
@@ -252,5 +265,4 @@ class CartDAO extends \Dao\Table
         $deleteSql = "DELETE FROM carretilla WHERE usercod = :usercod;";
         self::executeNonQuery($deleteSql, ["usercod" => $usercod]);
     }
-
 }

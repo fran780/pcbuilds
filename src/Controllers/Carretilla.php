@@ -71,6 +71,7 @@ class Carretilla extends PublicController
                     ? Cart::getAuthCart($userId)
                     : Cart::getAnonCart($userId);
                 $this->getCartCounter();
+                Site::redirectTo("index.php?page=Carretilla");
             }
         }
 

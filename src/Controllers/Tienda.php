@@ -48,8 +48,14 @@ class Tienda extends PublicController
         );
 
 
-
+        $stock = CartDAO::getProductosDisponibles();
         $this->products = $tmpProducts["products"];
+        foreach ($this->products as &$product) {
+            if (isset($stock[$product["id_producto"]])) {
+                $product["stock"] = $stock[$product["id_producto"]]["stock"];
+            }
+        }
+        unset($product);
         $this->productsCount = $tmpProducts["total"];
         $this->pages = $this->productsCount > 0 ? ceil($this->productsCount / $this->itemsPerPage) : 1;
 
@@ -90,6 +96,7 @@ class Tienda extends PublicController
                 }
             }
             $this->getCartCounter();
+            Site::redirectTo(Context::getContextByKey('request_uri'));
         }
 
         Renderer::render("paginas/tienda", $this->viewData);
@@ -98,7 +105,7 @@ class Tienda extends PublicController
     private function getParams(): void
     {
         $this->partialName = $_GET["partialName"] ?? $this->partialName;
-        $this->orderBy = isset($_GET["orderBy"]) && in_array($_GET["orderBy"], ["nombre_producto", "precio", "clear"]) ? $_GET["orderBy"] : $this->orderBy;
+        $this->orderBy = isset($_GET["orderBy"]) && in_array($_GET["orderBy"], ["nombre_producto", "precio", "stock", "clear"]) ? $_GET["orderBy"] : $this->orderBy;
         if ($this->orderBy === "clear") {
             $this->orderBy = "";
         }
