@@ -60,7 +60,7 @@ class Orders extends Table{
                     FROM ordenes o
                     LEFT JOIN transactions t ON o.transactionId = t.transactionId
                     WHERE o.usercod = :usercod";
-        $baseSqlCount = "SELECT COUNT(*) as total FROM ordenes WHERE usercod = :usercod";
+         $baseSqlCount = "SELECT COUNT(*) as total FROM ordenes o WHERE o.usercod = :usercod";
         $conditions = [];
         $params = ["usercod" => $usercod];
         if ($orderId !== "") {
@@ -135,7 +135,7 @@ class Orders extends Table{
 
     public static function getById(int $orderid)
     {
-        $sql = "SELECT o.orderid, o.usercod, o.order_status, o.shipping_status, o.orderdate, u.username, pt.currency
+        $sql = "SELECT o.orderid, o.usercod, o.order_status, o.shipping_status, o.orderdate, o.total, u.username, pt.currency
                 FROM ordenes o
                 LEFT JOIN usuario u ON o.usercod = u.usercod
                 LEFT JOIN transactions pt ON o.transactionId = pt.transactionId

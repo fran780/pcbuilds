@@ -104,7 +104,7 @@ class History extends PrivateController
     private function setParamsToContext(): void
     {
         Context::setContext("history_orderid", $this->orderId, true);
-        Context::setContext("history_orderstatus", $this->orderStatus, true);
+        Context::setContext("history_status", $this->orderStatus, true);
         Context::setContext("history_shippingStatus", $this->shippingStatus, true);
         Context::setContext("history_page", $this->pageNumber, true);
         Context::setContext("history_itemsPerPage", $this->itemsPerPage, true);
